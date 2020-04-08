@@ -24,9 +24,7 @@
     "ItemRequirements"
     {
       "01"                                                "item_lotus_orb_3;item_upgrade_core_3"
-      "02"                                                "item_lotus_orb_3;item_upgrade_core_4"
-      "03"                                                "item_dispel_orb_1;item_upgrade_core_3"
-      "04"                                                "item_dispel_orb_1;item_upgrade_core_4"
+      "02"                                                "item_dispel_orb_1;item_upgrade_core_3"
     }
   }
 
@@ -47,7 +45,7 @@
     "AbilityCooldown"                                     "15.0"
     "AbilitySharedCooldown"                               "lotus"
     "AbilityCastRange"                                    "900 1200 1500 1800 2100"
-    "AbilityManaCost"                                     "75"
+    "AbilityManaCost"                                     "150"
 
     "MaxUpgradeLevel"                                     "5"
     "ItemBaseLevel"                                       "4"
@@ -55,7 +53,7 @@
 
     // Item Info
     //-------------------------------------------------------------------------------------------------------------
-    "ItemCost"                                            "17000"
+    "ItemCost"                                            "16950"
     "ItemShopTags"                                        "regen_health;regen_mana;str;agi;int;hard_to_tag"
     "ItemQuality"                                         "epic"
     "ItemAliases"                                         "ls 4;lotus orb 4"
@@ -69,7 +67,7 @@
       "01"
       {
         "var_type"                                        "FIELD_INTEGER"
-        "bonus_armor"                                     "10 17 25 32 40"
+        "bonus_armor"                                     "10 12 15 19 24"
       }
       "02"
       {
@@ -90,11 +88,6 @@
       {
         "var_type"                                        "FIELD_FLOAT"
         "active_duration"                                 "6"
-      }
-      "06"
-      {
-        "var_type"                                        "FIELD_FLOAT"
-        "cast_range_tooltip"                              "900 1200 1500 1800 2100"
       }
     }
   }

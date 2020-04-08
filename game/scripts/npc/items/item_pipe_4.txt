@@ -24,9 +24,7 @@
     "ItemRequirements"
     {
       "01"                                                "item_pipe_3;item_upgrade_core_3"
-      "02"                                                "item_pipe_3;item_upgrade_core_4"
-      "03"                                                "item_glimmer_cape_3;item_upgrade_core_3"
-      "04"                                                "item_glimmer_cape_3;item_upgrade_core_4"
+      "02"                                                "item_glimmer_cape_3;item_upgrade_core_3"
     }
   }
 
@@ -55,7 +53,7 @@
 
     // Item Info
     //-------------------------------------------------------------------------------------------------------------
-    "ItemCost"                                            "16025"
+    "ItemCost"                                            "15775"
     "ItemShopTags"                                        "regen_health;boost_magic_resist"
     "ItemQuality"                                         "rare"
     "ItemAliases"                                         "pipe of insight 4;pipe 4"
@@ -69,12 +67,12 @@
       "01"
       {
         "var_type"                                        "FIELD_FLOAT"
-        "health_regen"                                    "8.0 10.0 13.0 16.0 18.0"
+        "health_regen"                                    "8.5 10.0 13.0 16.0 18.0"
       }
       "02"
       {
         "var_type"                                        "FIELD_INTEGER"
-        "magic_resistance"                                "30 32 34 37 40"
+        "magic_resistance"                                "30 32 34 36 38"
       }
       "03"
       {
@@ -88,13 +86,13 @@
       }
       "05"
       {
-        "var_type"                                        "FIELD_INTEGER"
-        "aura_health_regen"                               "3 4 6 8 11"
+        "var_type"                                        "FIELD_FLOAT"
+        "aura_health_regen"                               "2.5 5 7.5 10 12.5"
       }
       "06"
       {
         "var_type"                                        "FIELD_INTEGER"
-        "magic_resistance_aura"                           "10 13 16 20 24"
+        "magic_resistance_aura"                           "10 13 16 19 22"
       }
       "07"
       {
@@ -119,12 +117,12 @@
       "11"
       {
         "var_type"                                        "FIELD_INTEGER"
-        "bonus_all_stats"                                 "2 5 10 15 20"
+        "bonus_all_stats"                                 "0"
       }
       "12"
       {
         "var_type"                                        "FIELD_INTEGER"
-        "barrier_block_creep"                             "400"
+        "barrier_block_creep"                             "400 500 700 1000 1400"
       }
     }
   }

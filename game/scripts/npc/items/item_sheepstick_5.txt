@@ -45,7 +45,7 @@
 
     // Item Info---------------------------------------------------------------------------------------------------
     "AbilityManaCost"                                     "250"
-    "ItemCost"                                            "35750"
+    "ItemCost"                                            "35725"
     "ItemShopTags"                                        "int;regen_mana;agi;hard_to_tag"
     "ItemQuality"                                         "rare"
     "ItemAliases"                                         "hex 5;sheepstick 5;scythe of vyse 5"
@@ -83,11 +83,6 @@
       {
         "var_type"                                        "FIELD_FLOAT"
         "sheep_movement_speed"                            "140"
-      }
-      "07"
-      {
-        "var_type"                                        "FIELD_INTEGER"
-        "tooltip_range"                                   "800"
       }
     }
   }

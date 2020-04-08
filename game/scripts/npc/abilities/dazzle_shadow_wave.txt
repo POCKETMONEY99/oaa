@@ -13,6 +13,7 @@
     "AbilityUnitTargetType"                               "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
     "AbilityUnitDamageType"                               "DAMAGE_TYPE_PHYSICAL"
     "SpellImmunityType"                                   "SPELL_IMMUNITY_ENEMIES_YES"
+
     "MaxLevel"                                            "6"
     "RequiredLevel"                                       "1"
     "LevelsBetweenUpgrades"                               "2"
@@ -24,11 +25,11 @@
 
     // Time
     //-------------------------------------------------------------------------------------------------------------
-    "AbilityCooldown"                                     "14 12 10 8 7 7"
+    "AbilityCooldown"                                     "14 12 10 8 8 8"
 
     // Cost
     //-------------------------------------------------------------------------------------------------------------
-    "AbilityManaCost"                                     "90 100 110 120 170 220"
+    "AbilityManaCost"                                     "90 100 110 120 220 320"
 
     // Special
     //-------------------------------------------------------------------------------------------------------------

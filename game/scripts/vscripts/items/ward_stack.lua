@@ -74,6 +74,9 @@ if IsServer() then
       duration = self:GetSpecialValueFor(wardType .. '_duration')
     })
 
+    ward:SetDayTimeVisionRange(self:GetSpecialValueFor(wardType .. '_radius'))
+    ward:SetNightTimeVisionRange(self:GetSpecialValueFor(wardType .. '_radius'))
+
     caster[wardType .. 'Count'] = caster[wardType .. 'Count'] - 1
     if caster[wardType .. 'Count'] == 0 then
       self:ToggleType()
@@ -132,6 +135,22 @@ if not IsServer() then
       return "item_ward_observer"
     else
       return "item_branches"
+    end
+  end
+
+  function item_ward_stack:GetAOERadius()
+    local wardType = self.lastType or WARD_TYPE_OBSERVER
+    if self.mod and not self.mod:IsNull() then
+      wardType = self.mod:GetStackCount()
+    end
+    if wardType == WARD_TYPE_OBSERVER or wardType == WARD_TYPE_OBSERVER_ONLY then
+      -- observer radius
+      return self:GetSpecialValueFor("observer_radius")
+    elseif wardType == WARD_TYPE_SENTRY or wardType == WARD_TYPE_SENTRY_ONLY then
+      -- sentry radius
+      return self:GetSpecialValueFor("sentry_reveal_radius")
+    else
+      return 0
     end
   end
 end
@@ -328,9 +347,9 @@ end
 -- modifier_item_ward_stack
 --------------------------------------------------------------------------
 
-modifier_item_ward_stack = class(AuraProviderBaseClass)
+modifier_item_ward_stack = class(ModifierBaseClass) -- AuraProviderBaseClass
 
-function modifier_item_ward_stack:OnCreated (keys)
+function modifier_item_ward_stack:OnCreated(keys)
   self.BaseClass.OnCreated(self, keys)
 
   self:OnWardTypeUpdate()
@@ -357,67 +376,105 @@ function modifier_item_ward_stack:OnWardTypeUpdate ()
   end
 end
 
-function modifier_item_ward_stack:IsHidden ()
+function modifier_item_ward_stack:IsHidden()
+  return true
+end
+
+function modifier_item_ward_stack:IsDebuff()
+  return false
+end
+
+function modifier_item_ward_stack:IsPurgable()
+  return false
+end
+
+function modifier_item_ward_stack:IsAura()
   return true
 end
 
 -- aura stuff
-function modifier_item_ward_stack:GetAuraStackingType ()
-  return AURA_TYPE_NON_STACKING
-end
+--function modifier_item_ward_stack:GetAuraStackingType()
+  --return AURA_TYPE_NON_STACKING
+--end
 
-function modifier_item_ward_stack:IsAuraActiveOnDeath ()
-  return true
-end
+--function modifier_item_ward_stack:IsAuraActiveOnDeath()
+  --return true
+--end
 
-function modifier_item_ward_stack:GetAuraRadius ()
+function modifier_item_ward_stack:GetAuraRadius()
   return self:GetAbility():GetSpecialValueFor('aura_radius')
 end
 
-function modifier_item_ward_stack:GetAttributes ()
+function modifier_item_ward_stack:GetAttributes()
   return MODIFIER_ATTRIBUTE_MULTIPLE
 end
 
-function modifier_item_ward_stack:GetAuraDuration ()
-  return 1
+--function modifier_item_ward_stack:GetAuraDuration()
+  --return 1
+--end
+
+function modifier_item_ward_stack:GetModifierAura()
+  return "modifier_item_ward_stack_aura"
 end
 
-function modifier_item_ward_stack:GetModifierAura ()
-  return "modifier_item_ward_stack_aura"
+function modifier_item_ward_stack:GetAuraSearchTeam()
+  return DOTA_UNIT_TARGET_TEAM_FRIENDLY
+end
+
+function modifier_item_ward_stack:GetAuraSearchType()
+  return bit.bor(DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_BASIC)
+end
+
+function modifier_item_ward_stack:GetAuraSearchFlags()
+  return bit.bor(DOTA_UNIT_TARGET_FLAG_INVULNERABLE, DOTA_UNIT_TARGET_FLAG_OUT_OF_WORLD)
 end
 
 -- passive stats
 function modifier_item_ward_stack:DeclareFunctions ()
   return {
     MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
-    MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
-    MODIFIER_PROPERTY_HEALTH_BONUS,
-    MODIFIER_PROPERTY_MANA_BONUS
+    MODIFIER_PROPERTY_STATS_STRENGTH_BONUS,
+    MODIFIER_PROPERTY_STATS_AGILITY_BONUS,
+    MODIFIER_PROPERTY_STATS_INTELLECT_BONUS,
+    --MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
+    MODIFIER_PROPERTY_HEALTH_BONUS
+    --MODIFIER_PROPERTY_MANA_BONUS
   }
 end
 
-function modifier_item_ward_stack:GetModifierConstantHealthRegen ()
+function modifier_item_ward_stack:GetModifierConstantHealthRegen()
   return self:GetAbility():GetSpecialValueFor('bonus_health_regen')
 end
-function modifier_item_ward_stack:GetModifierPhysicalArmorBonus ()
-  return self:GetAbility():GetSpecialValueFor('bonus_armor')
-end
-function modifier_item_ward_stack:GetModifierHealthBonus ()
+
+--function modifier_item_ward_stack:GetModifierPhysicalArmorBonus()
+  --return self:GetAbility():GetSpecialValueFor('bonus_armor')
+--end
+
+function modifier_item_ward_stack:GetModifierHealthBonus()
   return self:GetAbility():GetSpecialValueFor('bonus_health')
 end
-function modifier_item_ward_stack:GetModifierManaBonus ()
-  return self:GetAbility():GetSpecialValueFor('bonus_mana')
+
+--function modifier_item_ward_stack:GetModifierManaBonus()
+  --return self:GetAbility():GetSpecialValueFor('bonus_mana')
+--end
+
+function modifier_item_ward_stack:GetModifierBonusStats_Strength()
+  return self:GetAbility():GetSpecialValueFor('bonus_all_stats')
 end
 
-function modifier_item_ward_stack:IsPurgable ()
-  return false
+function modifier_item_ward_stack:GetModifierBonusStats_Agility()
+  return self:GetAbility():GetSpecialValueFor('bonus_all_stats')
+end
+
+function modifier_item_ward_stack:GetModifierBonusStats_Intellect()
+  return self:GetAbility():GetSpecialValueFor('bonus_all_stats')
 end
 
 --------------------------------------------------------------------------
 -- modifier_item_ward_stack_aura
 --------------------------------------------------------------------------
 
-modifier_item_ward_stack_aura = class(AuraEffectBaseClass)
+modifier_item_ward_stack_aura = class(ModifierBaseClass) -- AuraEffectBaseClass
 
 function modifier_item_ward_stack_aura:DeclareFunctions()
   return {
@@ -429,10 +486,14 @@ function modifier_item_ward_stack_aura:GetModifierConstantManaRegen()
   return self:GetAbility():GetSpecialValueFor('aura_mana_regen')
 end
 
-function modifier_item_ward_stack_aura:IsHidden ()
+function modifier_item_ward_stack_aura:IsHidden()
   return true
 end
 
-function modifier_item_ward_stack_aura:IsPurgable ()
+function modifier_item_ward_stack_aura:IsDebuff()
+  return false
+end
+
+function modifier_item_ward_stack_aura:IsPurgable()
   return false
 end
